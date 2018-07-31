@@ -10,7 +10,12 @@ module_list_installer () {
     modulelist=$1
     if [ -e $modulelist ]; then
         while read module; do
-            $PUPPET module install $module --environment $environment --codedir $puppetdir
+            module_action=install
+            if $PUPPET module list --environment $environment --codedir $puppetdir | grep $module > /dev/null 2>&1; then
+                module_action=upgrade
+            fi
+            echo Preparing to $module_action $module
+            $PUPPET module $module_action $module --environment $environment --codedir $puppetdir
         done <$modulelist
     fi
 }

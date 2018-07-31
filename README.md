@@ -16,6 +16,31 @@ Installs the modules specified in the `forge-modules` files. This requires two p
 
 Applies the configurations to the machine. This requires two positional arguments: the path to the puppet code directory, and the name of the environment for which modules should be made available.
 
+### Helper scripts
+
+The helper scripts are additional files which are not used as part of the puppet setup process but perform other functions that are useful in the creation of puppet configurations.
+
+These scripts are generally written for Windows, whereas the install scripts are provided for *nix systems. This is due to the expectation that development work takes place on a Windows system whereas the deployed server is more likely to be running a linux distribution.
+
+#### `hiera-eyaml-install`
+
+Install the `hiera-eyaml` gem locally. This is not necessary when a machine is configured with puppet as the following resource can be included in the configuration:
+
+``` puppet
+package { 'hiera-eyaml':
+    ensure   => installed,
+    provider => 'puppet_gem'
+}
+```
+
+#### `hiera-eyaml-keygen`
+
+Generates new eyaml keys and stores them in the default location (`./keys`).
+
+#### `hiera-eyaml-new-password`
+
+Runs 'hiera-eyaml' to generate a new password and then encrypt in a format that can be used in a hiera configuration.
+
 ## Puppet Code Directory
 
 A well formed puppet code directory follows the format below:
